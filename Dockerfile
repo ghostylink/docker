@@ -1,0 +1,19 @@
+# Dockerfile based on lamp container
+FROM tutum/lamp:latest
+MAINTAINER Kevin REMY <kevanescence@hotmail.fr>
+
+ARG commit
+ARG version
+ENV GHOSTYLINK_WEBROOT "/var/www/html/ghostylink"
+
+COPY . /image
+
+# Aditional necessary extensions
+RUN  chmod u+x -R /image/scripts/ && \
+    /image/scripts/install_packages.sh 
+RUN  /image/scripts/get_ghostylink.sh && \
+    /image/scripts/install_ghostylink.sh
+
+EXPOSE 80
+
+CMD ["/image/scripts/entrypoint.sh"]
