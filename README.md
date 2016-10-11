@@ -32,16 +32,35 @@ You will need to configure some necessary informations:
 
 Create a `<conf>` dir and put the template configuration for your version
 in it. Create a `<data>` and a `<log>` directory.
-You can retrieve the template for the version you chose to install with:
 ```
-wget https://raw.githubusercontent.com/ghostylink/ghostylink/<version>/config/prod/app_prod_template.php
+cd <ghostylink_dir> && mkdir conf data log
+wget -P conf https://raw.github.com/ghostylink/ghostylink/<version>/config/prod/app_prod_template.php -O conf/app_prod.php
+wget https://raw.github.com/ghostylink/docker/<version>/scripts/docker -O docker.sh
+source docker.sh
+
+docker_init_image <ghostylink_version> <ghostylink_dir> <ghostylink_host>
 ```
 
 Run then command:
-```
-docker run -v <conf>:/conf -v <data>:/var/lib/mysql -p <port>:80 ghostylink/docker
+```bash
+docker run -v <conf>:/conf -v <data>:/var/lib/mysql -p <port>:80 ghostylink/ghostylink
 ```
 
 ## Using existing data
+Run the command bellow with your existing `conf` , `data` and `log` directories
+
+```bash
+docker run -v <conf>:/conf -v <data>:/var/lib/mysql -p <port>:80 ghostylink/ghostylink
+```
+
+### Migrations
+When your `data` directory contains data from an older version, ghostylink migrations
+are applied automatically
+In a similar way, you can downgrade to an older version of the ghostylink project
 
 # Building
+
+```bash
+git clone https://github.com/ghostylink/docker/
+docker build -t local/ghostylink  --build-arg commit=<commit-id> .
+```
