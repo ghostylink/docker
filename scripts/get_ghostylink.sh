@@ -6,7 +6,7 @@ git clone https://github.com/ghostylink/ghostylink "$GHOSTYLINK_WEBROOT"
     
     if [[ "$branch" != "" ]]; then
         git checkout "$branch"
-    if [[ "$version" != "" ]]; then
+    elif [[ "$version" != "" ]]; then
         git checkout "tags/$version"
     elif [[ "$commit" != "" ]]; then
         git checkout "$commit"
