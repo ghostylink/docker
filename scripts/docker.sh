@@ -7,32 +7,37 @@
 ## @param $4 [optional] subdomain ghostylink should be put on
 ## @return void
 function docker_init_compose {
-    local ghostylinkVersion=$1
+    local ghostylinkVersion="$1"
     local domain="$2"
-    
+    local port="$3"
     if [[ "$#" -lt 2 ]]; then
         echo "Command usage:"
         echo "docker_init_compose version domain [directory] [subdomain]"
         return 1
     fi
-    local ghostylinkDir="$3"
-    local subdomain="$4"
-    
-    if [[ $subdomain != "" ]]; then
-        subdomain="$subdomain."
+
+    if [[ "$port" == "" ]]; then
+        port=9999
+    fi
+    local ghostylinkDir="$4"
+    if [[ "$ghostylinkDir" == "" ]]; then
+        ghostylinkDir="."
     fi
     
     # Configure image
-    local url="http://$subdomain$domain:9999"
+    local url="http://$domain:$port"
     docker_init_image "$ghostylinkVersion" "$ghostylinkDir" "$url"
     
     # Configure other requirements for a standalone usage
     # docker_get_compose_file "$versionToInstall" "$ghostylinkVersion"
     mailerPassword=$(docker_generate_password)
-    echo "mailer@$subdomain$domain|$mailerPassword" > "$ghostylinkDir/postfix/accounts.cf"
+    echo "mailer@$domain|$mailerPassword" > "$ghostylinkDir/postfix/accounts.cf"
 
     # Configure email sending with the smtp linked docker service
-    docker_configure_email "smtp" "mailer@$subdomain$domain" "$mailerPassword" "$ghostylinkDir"
+    docker_configure_email "smtp" "mailer@$domain" "$mailerPassword" "$ghostylinkDir"
+    sed -ie "s#__HOST#$domain#g" "$ghostylinkDir/docker-compose.yml"
+    sed -ie "s#__PORT#$port#g" "$ghostylinkDir/docker-compose.yml"
+
 }
 
 ## Initialize configuration for the single ghostylink image
@@ -46,8 +51,7 @@ function docker_init_image {
     if [[ $ghostylinkDir == "" ]]; then
         ghostylinkDir='.'
     fi
-
-    docker_configure_dir "$ghostylinkDir"
+    
     # docker_get_conf_template "$ghostylinkVersion" 
     docker_configure_host "$ghostylinkDir" "$ghostylinkHost"
     docker_configure_db "$ghostylinkDir"

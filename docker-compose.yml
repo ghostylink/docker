@@ -1,20 +1,20 @@
 version: '2'
 services:
     ghostylink:
-        image: local/ghostylink
+        image: docker.io/ghostylink/ghostylink
         ports:
-         - "9999:80"         
+         - "__PORT:80"         
         volumes:
-         - ${PWD}/db/:/var/lib/mysql:z
-         - ${PWD}/config/:/var/www/html/config/prod/
-         - ${PWD}/logs/:/var/www/html/logs/
+         - ${PWD}/data/:/var/lib/mysql:z
+         - ${PWD}/conf/:/conf
+         - ${PWD}/logs/:/log
         links:
          - smtp
         expose:
          - "25"
     smtp:
         image: docker.io/tvial/docker-mailserver        
-        domainname: localhost.localdomain
+        domainname: __HOST
         ports:
           - "1025:25"
           - "143:143"
