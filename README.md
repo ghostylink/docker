@@ -15,8 +15,11 @@ It contains:
 You will need to configure some necessary informations:
 * Database access
 * A security salt for password hashing
-* Google recatpcha keys
 * Smtp access
+
+[Optional]
+
+* Google recatpcha keys
 
 ```
 'fullBaseUrl' => '__FULL_URL'
@@ -26,8 +29,8 @@ You will need to configure some necessary informations:
 'username' => '__DB_USERNAME',
 'password' => '__DB_PASSWORD',
 'database' => '__DB_DATABASE',
-'private' => '__CAPTCHA_PRIVATE',
-'public' => '__CAPTCHA_PUBLIC'
+'private' => null,
+'public' => null
 'salt' => '__SECURITY_SALT',
 ```
 
@@ -56,6 +59,7 @@ We provide a docker-compose.yml file for additional services required by
 ghostylink.
 It includes:
 * A smtp server
+* The ghostylink project
 
 To use it:
 ```bash
@@ -69,7 +73,11 @@ wget https://raw.github.com/ghostylink/docker/$version/docker-compose.yml\
      -O docker-compose.yml
 source docker.sh
 
+# Configure google recaptcha manually
+vi conf/app_prod.php
+
 docker_init_compose version domain port <ghostylink_dir>
+docker-compose up
 ```
 
 ## Using existing data
