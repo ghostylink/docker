@@ -10,16 +10,9 @@ services:
          - ${PWD}/logs/:/log
         links:
          - smtp
-        expose:
-         - "25"
     smtp:
         image: docker.io/tvial/docker-mailserver        
-        domainname: __HOST
-        ports:
-          - "1025:25"
-          - "143:143"
-          - "587:587" 
-          - "993:993"
+        domainname: __HOST        
         expose:
           - "25"
         volumes:
