@@ -1,6 +1,3 @@
-# Disclaimer
-This is only pre-release information. Docker image will be soon available :)
-
 # Purpose
 This is the [ghostylink](https://github.com/ghostylink/ghostylink) docker image.
 You can use it if you want to host the project on your own
@@ -13,27 +10,34 @@ It contains:
 ## First start
 ### Standalone image
 You will need to configure some necessary informations:
+
 * Database access
 * A security salt for password hashing
-* Smtp access
 
-[Optional]
+*Optional*
 
-* Google recatpcha keys
+* Google recatpcha keys (disable it by setting ``reCaptcheKeys.public` to `null`)
+ - Used for recaptcha component activation
+* Smtp access (disable it by setting `EmailTransport.default.username` to `null`)
+ - Used for ghostyfication alerts
+ - Used for user's email verification
 
-```
-'fullBaseUrl' => '__FULL_URL'
-'host' => '__EMAIL_HOST',
-'username' => '__EMAIL_USERNAME',
-'password' => '__EMAIL_PASSWORD',
-'username' => '__DB_USERNAME',
-'password' => '__DB_PASSWORD',
-'database' => '__DB_DATABASE',
-'private' => null,
-'public' => null
-'salt' => '__SECURITY_SALT',
-```
 
+| Configuration key       | Description           | Required  |
+| ------------- |:-------------|:-----:|
+|'fullBaseUrl'      | ghostylink installed url | **Yes** |
+|'Security.salt' | a salt for password hashing      |    **Yes** |
+|'Datasources.default.username' | database username      |    **Yes** |
+|'Datasources.default.password' | database password      |    **Yes** |
+|'Datasources.default.database' | database name      |    **Yes** |
+|'EmailTransport.default.host'      | smtp host      |   No |
+|'EmailTransport.default.username'      | smtp username      |   No |
+|'EmailTransport.default.password' | smtp password      |    No |
+|'reCaptcheKeys.public'      | google recaptcha public key      |   No |
+|'reCaptcheKeys.private'      | google recaptcha private key      |   No |
+
+
+To configure easily those keys, you can use our `docker.sh` bash script.
 Create a `<conf>` dir and put the template configuration for your version
 in it. Create a `<data>` and a `<log>` directory.
 ```bash
@@ -73,7 +77,7 @@ wget https://raw.github.com/ghostylink/docker/$version/docker-compose.yml\
      -O docker-compose.yml
 source docker.sh
 
-# Configure google recaptcha manually
+# Configure google recaptcha manually or replace by null if not wanted
 vi conf/app_prod.php
 
 docker_init_compose version domain port <ghostylink_dir>
