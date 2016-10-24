@@ -102,7 +102,8 @@ are applied automatically at start up.
 
 ### Downgrade
 In a similar way, you can downgrade to an older version of the ghostylink project.
-Note that you will lose irredeemably data.
+
+:warning: You will lose irredeemably data. Be sure before downgrading. Downgrading is only supported for version ghostylink 1.4+
 
 # Building
 
