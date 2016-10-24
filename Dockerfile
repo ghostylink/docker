@@ -5,7 +5,9 @@ MAINTAINER Kevin REMY <kevanescence@hotmail.fr>
 ARG commit
 ARG version
 ARG branch
+
 ENV GHOSTYLINK_WEBROOT "/var/www/html/ghostylink"
+ENV DEFAULT_VERSION "v1.3"
 
 COPY . /image
 

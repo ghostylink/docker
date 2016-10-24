@@ -10,5 +10,7 @@ git clone https://github.com/ghostylink/ghostylink "$GHOSTYLINK_WEBROOT"
         git checkout "tags/$version"
     elif [[ "$commit" != "" ]]; then
         git checkout "$commit"
+    else
+        git checkout "$DEFAULT_VERSION"
     fi
 )

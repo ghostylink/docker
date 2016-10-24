@@ -25,16 +25,16 @@ You will need to configure some necessary informations:
 
 | Configuration key       | Description           | Required  |
 | ------------- |:-------------|:-----:|
-|'fullBaseUrl'      | ghostylink installed url | **Yes** |
-|'Security.salt' | a salt for password hashing      |    **Yes** |
-|'Datasources.default.username' | database username      |    **Yes** |
-|'Datasources.default.password' | database password      |    **Yes** |
-|'Datasources.default.database' | database name      |    **Yes** |
-|'EmailTransport.default.host'      | smtp host      |   No |
-|'EmailTransport.default.username'      | smtp username      |   No |
-|'EmailTransport.default.password' | smtp password      |    No |
-|'reCaptcheKeys.public'      | google recaptcha public key      |   No |
-|'reCaptcheKeys.private'      | google recaptcha private key      |   No |
+|`fullBaseUrl`      | ghostylink installed url | **Yes** |
+|`Security.salt` | a salt for password hashing      |    **Yes** |
+|`Datasources.default.username` | database username      |    **Yes** |
+|`Datasources.default.password` | database password      |    **Yes** |
+|`Datasources.default.database` | database name      |    **Yes** |
+|`EmailTransport.default.host`     | smtp host      |   No |
+|`EmailTransport.default.username`      | smtp username      |   No |
+|`EmailTransport.default.password` | smtp password      |    No |
+|`reCaptcheKeys.public`      | google recaptcha public key      |   No |
+|`reCaptcheKeys.private`      | google recaptcha private key      |   No |
 
 
 To configure easily those keys, you can use our `docker.sh` bash script.
@@ -56,6 +56,7 @@ Run then command:
 docker run -v <conf>:/conf \
            -v <data>:/var/lib/mysql \
            -v <log>:/log \
+           -d \
            -p <port>:80 ghostylink/ghostylink
 ```
 ### Using docker-compose
@@ -91,6 +92,7 @@ Run the command bellow with your existing `conf` , `data` and `log` directories
 docker run -v <conf>:/conf \
            -v <data>:/var/lib/mysql\
            -v <log>:/log \
+           -d \
            -p <port>:80 ghostylink/ghostylink
 ```
 
@@ -121,3 +123,6 @@ docker build -t local/ghostylink  --build-arg branch=<branch-name> .
 git clone https://github.com/ghostylink/docker/
 docker build -t local/ghostylink  --build-arg tag=<tag-name> .
 ```
+
+## Default
+By default build take the `DEFAULT_VERSION` variable specified in the Dockerfile
