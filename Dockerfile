@@ -7,7 +7,7 @@ ARG version
 ARG branch
 
 ENV GHOSTYLINK_WEBROOT "/var/www/html/ghostylink"
-ENV DEFAULT_VERSION "v1.3"
+ENV DEFAULT_VERSION "v1.4"
 
 COPY . /image
 
